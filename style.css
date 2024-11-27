@@ -72,21 +72,71 @@ nav ul li a:hover {
     transition: opacity 0.3s;
 }
 
-.tooltip .tooltiptext::after {
+/* .tooltip .tooltiptext::after {
     content: "";
     position: absolute;
     bottom: 100%; /* Position the arrow at the bottom of the tooltip */
-    left: 50%;
+    /* left: 50%;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
     border-color: #555 transparent transparent transparent;
-}
+} */ 
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
 }
+
+/* Layout Styles */
+.layout {
+    display: flex;
+    height: calc(100vh - 60px); /* Adjust based on header height */
+}
+
+.side-panel {
+    width: 120px;
+    background-color: #f4f4f4;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.side-panel .block {
+    width: 100%;
+    height: 100px;
+    margin: 10px 0;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 5px;
+}
+
+.side-panel .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    overflow-y: auto;
+}
+
 
 
 /* Hero Section Styles */
@@ -181,3 +231,5 @@ footer {
 .social-icons a:hover {
     color: #ff6600;
 }
+
+

@@ -84,6 +84,57 @@ nav ul li a:hover {
     opacity: 1;
 }
 
+/* Layout Styles */
+.layout {
+    display: flex;
+    height: calc(100vh - 60px); /* Adjust based on header height */
+}
+
+.side-panel {
+    width: 120px;
+    background-color: #f4f4f4;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.side-panel .block {
+    width: 100%;
+    height: 100px;
+    margin: 10px 0;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 5px;
+}
+
+.side-panel .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    overflow-y: auto;
+}
+
+
+
 /* Main Content Area */
 .container {
     display: grid;
@@ -183,4 +234,44 @@ footer {
 
 .social-icons a:hover {
     color: #ff6600;
+}
+
+
+/* Layout Styles */
+.layout {
+    display: flex; /* Enables horizontal alignment */
+    height: 100vh; /* Make the layout span the full viewport height */
+    overflow: hidden;
+}
+
+/* Side Panel Styles */
+.side-panel {
+    width: 25%; /* Adjust width of the side panel */
+    background-color: #003366; /* Optional background color */
+    display: flex;
+    flex-direction: column; /* Stack blocks vertically */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    padding: 10px;
+}
+
+.side-panel .block {
+    margin: 10px 0; /* Space between blocks */
+    flex-shrink: 0; /* Prevent blocks from shrinking */
+}
+
+/* Main Content Area Styles */
+.main-content {
+    flex: 1; /* Take up remaining space */
+    padding: 20px;
+    background-color: #f4f4f4; /* Optional background color */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+.main-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.main-content p {
+    font-size: 1.2rem;
 }
