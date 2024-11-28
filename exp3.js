@@ -2,8 +2,9 @@
 const container = document.getElementById('3d-container');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ alpha: true }); // Enable alpha for transparency
 renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.setClearColor(0x000000, 0); // Black color with 0 opacity (fully transparent)
 container.appendChild(renderer.domElement);
 
 // Lighting
@@ -15,22 +16,40 @@ scene.add(light);
 const loader = new THREE.GLTFLoader();
 
 // Variables to store models
-let beaker, burette;
+let beaker1, beaker2, beaker3, burette;
 
 // Load Models (Beaker and Burette)
 loader.load('beaker[1].glb', function (gltf) {
-    beaker = gltf.scene;
-    beaker.position.set(0, -1, 0);  // Adjust position as necessary
-    beaker.scale.set(0.3, 0.3, 0.3);  // Scale down the model
-    scene.add(beaker);
+    beaker1 = gltf.scene;
+    beaker1.position.set(-4.5, -1, 0); // Move Beaker1 to the left
+    beaker1.scale.set(0.5, 0.5, 0.5); // Scale down the model
+    scene.add(beaker1);
 }, undefined, function (error) {
-    console.error('An error happened while loading the beaker model:', error);
+    console.error('An error happened while loading the first beaker model:', error);
+});
+
+loader.load('beaker[1].glb', function (gltf) {
+    beaker2 = gltf.scene;
+    beaker2.position.set(-3, -1, 0); // Move Beaker2 a bit further right
+    beaker2.scale.set(0.5, 0.5, 0.5); // Scale down the model
+    scene.add(beaker2);
+}, undefined, function (error) {
+    console.error('An error happened while loading the second beaker model:', error);
+});
+
+loader.load('beaker[1].glb', function (gltf) {
+    beaker3 = gltf.scene;
+    beaker3.position.set(-1.5, -1, 0); // Position Beaker3 to the right of Beaker2
+    beaker3.scale.set(0.5, 0.5, 0.5); // Scale down the model
+    scene.add(beaker3);
+}, undefined, function (error) {
+    console.error('An error happened while loading the third beaker model:', error);
 });
 
 loader.load('burette.glb', function (gltf) {
     burette = gltf.scene;
-    burette.position.set(1, 1, 0);  // Adjust position as necessary
-    burette.scale.set(0.3, 0.3, 0.3);  // Scale down the model
+    burette.position.set(1.5, 0, 0); // Adjust position as necessary
+    burette.scale.set(0.6, 0.6, 0.6); // Scale down the model
     scene.add(burette);
 }, undefined, function (error) {
     console.error('An error happened while loading the burette model:', error);

@@ -337,7 +337,7 @@ footer {
 #3d-container {
     width: 100%;
     height: 500px;
-    background-color: #e0f7fa; /* Light blue background */
+    background-color:transparent; /* Light blue background */
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
