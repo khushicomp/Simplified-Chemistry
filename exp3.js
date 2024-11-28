@@ -2,10 +2,12 @@
 const container = document.getElementById('3d-container');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ alpha: true }); // Enable alpha for transparency
+const renderer = new THREE.WebGLRenderer();
 renderer.setSize(container.clientWidth, container.clientHeight);
-renderer.setClearColor(0x000000, 0); // Black color with 0 opacity (fully transparent)
 container.appendChild(renderer.domElement);
+
+// Set background color of the scene
+renderer.setClearColor(0xe0f7fa); // Light blue background
 
 // Lighting
 const light = new THREE.PointLight(0xffffff, 1, 100);
@@ -18,41 +20,77 @@ const loader = new THREE.GLTFLoader();
 // Variables to store models
 let beaker1, beaker2, beaker3, burette;
 
-// Load Models (Beaker and Burette)
+// Load Models (Beakers and Burette)
 loader.load('beaker[1].glb', function (gltf) {
     beaker1 = gltf.scene;
-    beaker1.position.set(-4.5, -1, 0); // Move Beaker1 to the left
-    beaker1.scale.set(0.5, 0.5, 0.5); // Scale down the model
+    beaker1.position.set(-5, -1, 0); // Move Beaker1 to the left
+    beaker1.scale.set(0.3, 0.5, 0.5);
+
+    // Make Beaker1 Transparent
+    beaker1.traverse(function (child) {
+        if (child.isMesh) {
+            child.material.transparent = true;
+            child.material.opacity = 0.5; // Adjust opacity
+        }
+    });
+
     scene.add(beaker1);
 }, undefined, function (error) {
-    console.error('An error happened while loading the first beaker model:', error);
+    console.error('Error loading Beaker1:', error);
 });
 
 loader.load('beaker[1].glb', function (gltf) {
     beaker2 = gltf.scene;
-    beaker2.position.set(-3, -1, 0); // Move Beaker2 a bit further right
-    beaker2.scale.set(0.5, 0.5, 0.5); // Scale down the model
+    beaker2.position.set(-3.5, -1, 0); // Position Beaker2 next to Beaker1
+    beaker2.scale.set(0.4, 0.5, 0.5);
+
+    // Make Beaker2 Transparent
+    beaker2.traverse(function (child) {
+        if (child.isMesh) {
+            child.material.transparent = true;
+            child.material.opacity = 0.5; // Adjust opacity
+        }
+    });
+
     scene.add(beaker2);
 }, undefined, function (error) {
-    console.error('An error happened while loading the second beaker model:', error);
+    console.error('Error loading Beaker2:', error);
 });
 
 loader.load('beaker[1].glb', function (gltf) {
     beaker3 = gltf.scene;
-    beaker3.position.set(-1.5, -1, 0); // Position Beaker3 to the right of Beaker2
-    beaker3.scale.set(0.5, 0.5, 0.5); // Scale down the model
+    beaker3.position.set(-2, -1, 0); // Position Beaker3 next to Beaker2
+    beaker3.scale.set(0.5, 0.5, 0.5);
+
+    // Make Beaker3 Transparent
+    beaker3.traverse(function (child) {
+        if (child.isMesh) {
+            child.material.transparent = true;
+            child.material.opacity = 0.5; // Adjust opacity
+        }
+    });
+
     scene.add(beaker3);
 }, undefined, function (error) {
-    console.error('An error happened while loading the third beaker model:', error);
+    console.error('Error loading Beaker3:', error);
 });
 
 loader.load('burette.glb', function (gltf) {
     burette = gltf.scene;
-    burette.position.set(1.5, 0, 0); // Adjust position as necessary
-    burette.scale.set(0.6, 0.6, 0.6); // Scale down the model
+    burette.position.set(0, -0.5, -0.5); // Adjust position as necessary
+    burette.scale.set(0.5, 0.6, 0.5);
+
+    // Make Burette Transparent
+    burette.traverse(function (child) {
+        if (child.isMesh) {
+            child.material.transparent = true;
+            child.material.opacity = 0.5; // Adjust opacity
+        }
+    });
+
     scene.add(burette);
 }, undefined, function (error) {
-    console.error('An error happened while loading the burette model:', error);
+    console.error('Error loading Burette:', error);
 });
 
 // Camera Position
@@ -65,22 +103,68 @@ function animate() {
 }
 animate();
 
-// Solution Logic
+// Solution Logic Variables
 let solutionVolume = 0;
-const resultElement = document.getElementById('result');
+let ebtVolume = 0;
+let znso4Volume = 0;
+let bufferVolume = 0;
 
+// EDTA Logic
 document.getElementById('add-solution').addEventListener('click', function () {
     const inputAmount = parseFloat(document.getElementById('solution-amount').value);
-
-    if (inputAmount + solutionVolume > 50) {
-        resultElement.textContent = "You can't add more than 50mL of solution.";
+    if (isNaN(inputAmount) || inputAmount <= 0) {
+        document.getElementById('result').textContent = "Please enter a valid amount for EDTA.";
         return;
     }
-
-    solutionVolume += inputAmount;
-    resultElement.textContent = `Added ${inputAmount}mL of EDTA solution. Total: ${solutionVolume}mL.`;
-
-    if (solutionVolume >= 25) {
-        resultElement.textContent += ' Hardness level determined: Water is moderately hard.';
+    if (inputAmount + solutionVolume > 50) {
+        document.getElementById('result').textContent = "You can't add more than 50mL of EDTA.";
+        return;
     }
+    solutionVolume += inputAmount;
+    document.getElementById('result').textContent = `Added ${inputAmount}mL of EDTA solution. Total: ${solutionVolume}mL.`;
+});
+
+// EBT Logic
+document.getElementById('add-ebt').addEventListener('click', function () {
+    const inputAmount = parseFloat(document.getElementById('ebt-amount').value);
+    if (isNaN(inputAmount) || inputAmount <= 0) {
+        document.getElementById('ebt-result').textContent = "Please enter a valid amount for EBT.";
+        return;
+    }
+    if (inputAmount + ebtVolume > 20) {
+        document.getElementById('ebt-result').textContent = "You can't add more than 20mL of EBT.";
+        return;
+    }
+    ebtVolume += inputAmount;
+    document.getElementById('ebt-result').textContent = `Added ${inputAmount}mL of EBT solution. Total: ${ebtVolume}mL.`;
+});
+
+// ZnSO₄ Logic
+document.getElementById('add-znso4').addEventListener('click', function () {
+    const inputAmount = parseFloat(document.getElementById('znso4-amount').value);
+    if (isNaN(inputAmount) || inputAmount <= 0) {
+        document.getElementById('znso4-result').textContent = "Please enter a valid amount for ZnSO₄.";
+        return;
+    }
+    if (inputAmount + znso4Volume > 30) {
+        document.getElementById('znso4-result').textContent = "You can't add more than 30mL of ZnSO₄.";
+        return;
+    }
+    znso4Volume += inputAmount;
+    document.getElementById('znso4-result').textContent = `Added ${inputAmount}mL of ZnSO₄ solution. Total: ${znso4Volume}mL.`;
+});
+
+// Buffer Logic
+document.getElementById('add-buffer').addEventListener('click', function () {
+    const inputAmount = parseFloat(document.getElementById('buffer-amount').value);
+    if (isNaN(inputAmount) || inputAmount <= 0) {
+        document.getElementById('buffer-result').textContent = "Please enter a valid amount for Buffer.";
+        return;
+    }
+    if (inputAmount + bufferVolume > 40) {
+        document.getElementById('buffer-result').textContent = "You can't add more than 40mL of Buffer.";
+        return;
+    }
+    bufferVolume += inputAmount;
+    document.getElementById('buffer-result').textContent = `Added ${inputAmount}mL of Buffer solution. Total: ${bufferVolume}mL.`;
 });
