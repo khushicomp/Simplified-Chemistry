@@ -168,3 +168,24 @@ document.getElementById('add-buffer').addEventListener('click', function () {
     bufferVolume += inputAmount;
     document.getElementById('buffer-result').textContent = `Added ${inputAmount}mL of Buffer solution. Total: ${bufferVolume}mL.`;
 });
+// Get references to the buttons and modal elements
+const viewProcedureBtn = document.getElementById('view-procedure-btn');
+const procedureModal = document.getElementById('procedure-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
+
+// Show the procedure modal when the button is clicked
+viewProcedureBtn.addEventListener('click', () => {
+    procedureModal.style.display = 'block'; // Show the modal
+});
+
+// Hide the procedure modal when the close button is clicked
+closeModalBtn.addEventListener('click', () => {
+    procedureModal.style.display = 'none'; // Hide the modal
+});
+
+// Optionally close modal if the user clicks outside the modal
+window.addEventListener('click', (event) => {
+    if (event.target === procedureModal) {
+        procedureModal.style.display = 'none';
+    }
+});
